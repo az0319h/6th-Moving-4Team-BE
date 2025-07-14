@@ -6,7 +6,7 @@
     "dev": "ts-node-dev --respawn src/app.ts",
     "build": "tsc",
     "start": "node --enable-source-maps dist/app.js",
-    "seed": "ts-node prisma/seed/seed.ts",
+    "seed": "ts-node prisma/seed.ts",
     "ssh": "dotenv -- bash -c 'ssh -i \"$SSH_KEY_PATH\" -L 5432:$DB_HOST:5432 $EC2_USER@$EC2_HOST'",
     "test": "jest",
     "test:watch": "jest --watchAll"

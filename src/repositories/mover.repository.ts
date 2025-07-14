@@ -7,9 +7,7 @@ async function fetchMovers(clientId?: string): Promise<SimplifiedMover[]> {
   try {
     const movers = await prisma.mover.findMany({
       include: {
-        favorites: clientId
-          ? { where: { clientId }, select: { id: true } }
-          : false,
+        favorites: clientId ? { where: { clientId }, select: { id: true } } : false,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -36,9 +34,7 @@ async function fetchMoverDetail(moverId: string, clientId?: string): Promise<Mov
     const mover = await prisma.mover.findUnique({
       where: { id: moverId },
       include: {
-        favorites: clientId
-          ? { where: { clientId }, select: { id: true } }
-          : false,
+        favorites: clientId ? { where: { clientId }, select: { id: true } } : false,
         serviceArea: true,
       },
     });
@@ -81,10 +77,16 @@ async function removeFavoriteMover(clientId: string, moverId: string) {
 
 // 지정
 async function designateMover(requestId: string, moverId: string) {
-  return prisma.request.update({
-    where: { id: requestId },
-    data: { moverId, isDesignated: true, isPending: false },
-  });
+  return await prisma.$transaction([
+    prisma.request.update({
+      where: { id: requestId },
+      data: { isPending: false },
+    }),
+    prisma.designatedRequest.update({
+      where: { requestId_moverId: { requestId, moverId } },
+      data: { moverId },
+    }),
+  ]);
 }
 
 export default {
