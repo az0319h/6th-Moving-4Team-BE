@@ -1,31 +1,36 @@
 import { Client, Review } from "@prisma/client";
 import reviewRepository from "../repositories/review.repository";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../types/errors";
-import { CreateReviewBody } from "../types";
+import { CreateReviewDto } from "../dtos/review.dto";
+import estimateRepository from "../repositories/estimate.repository";
 
 // 내가 작성한 리뷰 목록
-async function getMyReviews(clientId: Client["id"], page: number = 1, pageSize: number = 6) {
+async function getMyReviews(clientId: Client["id"], page: number = 1, limit: number = 6) {
   if (!clientId) {
     throw new BadRequestError("clientId가 필요합니다.");
   }
-  const skip = (page - 1) * pageSize;
-  return reviewRepository.findReviewsByClientId(clientId, skip, pageSize);
+  const offset = (page - 1) * limit;
+  return reviewRepository.findReviewsByClientId(clientId, offset, limit, page);
 }
 
 // 리뷰 작성
-async function createReview(data: CreateReviewBody) {
-  const { estimateId, rating, content, clientId, moverId } = data;
-  if (!estimateId || !content || !clientId || !moverId) {
+async function createReview(data: CreateReviewDto, clientId: Client["id"]) {
+  const { estimateId, rating, content } = data;
+  if (!estimateId || !content || !clientId) {
     throw new BadRequestError("필수 입력값이 누락되었습니다.");
   }
   if (rating < 1 || rating > 5) {
     throw new BadRequestError("평점은 1~5 사이여야 합니다.");
   }
 
+  // 견적에서 moverId 조회
+  const estimate = await estimateRepository.getEstimateMoverId(estimateId);
+  if (!estimate) throw new BadRequestError("존재하지 않는 견적입니다.");
+
   return reviewRepository.createReview({
     estimate: { connect: { id: estimateId } },
     client: { connect: { id: clientId } },
-    mover: { connect: { id: moverId } },
+    mover: { connect: { id: estimate.moverId } },
     rating,
     content,
   });

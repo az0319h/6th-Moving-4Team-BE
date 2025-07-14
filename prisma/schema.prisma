@@ -19,21 +19,13 @@ model Client {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   serviceType    MoveType[]
-  livingArea     Region[]
 
+  livingArea    Region[]
   requests      Request[]
   estimates     Estimate[]
   reviews       Review[]
   favorites     Favorite[]
   notifications Notification[]
-}
-
-model Region {
-  id         String @id @default(uuid())
-  regionName String @unique
-
-  clients Client[]
-  movers  Mover[]
 }
 
 model Mover {
@@ -52,16 +44,44 @@ model Mover {
   introduction        String?
   description         String?
   serviceType         MoveType[]
-  serviceArea         Region[]
   favoriteCount       Int        @default(0)
   estimateCount       Int        @default(0)
   averageReviewRating Float      @default(0)
   reviewCount         Int        @default(0)
 
-  estimates     Estimate[]
-  reviews       Review[]
-  favorites     Favorite[]
-  notifications Notification[]
+  serviceArea        Region[]
+  estimates          Estimate[]
+  reviews            Review[]
+  favorites          Favorite[]
+  notifications      Notification[]
+  designatedRequests DesignatedRequest[]
+}
+
+model Request {
+  id          String   @id @default(uuid())
+  clientId    String
+  moveType    MoveType
+  moveDate    DateTime
+  fromAddress String
+  toAddress   String
+  isPending   Boolean  @default(true)
+  requestedAt DateTime @default(now())
+
+  client            Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  estimate          Estimate[]
+  designatedRequest DesignatedRequest[]
+}
+
+model DesignatedRequest {
+  id        String   @id @default(uuid())
+  requestId String
+  moverId   String
+  createdAt DateTime @default(now())
+
+  request Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  mover   Mover   @relation(fields: [moverId], references: [id], onDelete: Cascade)
+
+  @@unique([requestId, moverId])
 }
 
 model Estimate {
@@ -81,24 +101,6 @@ model Estimate {
   review  Review?
 
   @@unique([requestId, moverId])
-  @@index([clientId])
-}
-
-model Request {
-  id           String   @id @default(uuid())
-  clientId     String
-  moverId      String?
-  estimateId   String?  @unique
-  moveType     MoveType
-  moveDate     DateTime
-  fromAddress  String
-  toAddress    String
-  isDesignated Boolean  @default(false)
-  isPending    Boolean  @default(true)
-  requestedAt  DateTime @default(now())
-
-  client   Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  estimate Estimate[]
 }
 
 model Review {
@@ -137,6 +139,14 @@ model Favorite {
   mover  Mover  @relation(fields: [moverId], references: [id], onDelete: Cascade)
 
   @@unique([clientId, moverId])
+}
+
+model Region {
+  id         String @id @default(uuid())
+  regionName String @unique
+
+  clients Client[]
+  movers  Mover[]
 }
 
 enum Provider {

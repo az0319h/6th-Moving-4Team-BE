@@ -10,6 +10,5 @@
 
 export * from "./authMover.types";
 export * from "./token.type";
-export * from "./review";
 export * from "./authClient.types";
 export * from "./profile.types";

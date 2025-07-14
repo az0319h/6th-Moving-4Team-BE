@@ -5,7 +5,6 @@ export const CreateReviewSchema = z.object({
   estimateId: z.string().uuid(),
   rating: z.number().int().min(1).max(5),
   content: z.string().min(10),
-  moverId: z.string().uuid(),
 });
 
 // 리뷰 수정 DTO 및 zod 스키마

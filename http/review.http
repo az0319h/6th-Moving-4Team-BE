@@ -1,38 +1,39 @@
 @token=
+@reviewId=2ffb4c46-fc89-48f0-ac3b-dc4f1fcbf189
 
 ### 내가 작성한 리뷰 목록 조회
-GET http://localhost:3000/reviews/me
+GET http://localhost:4000/reviews/me
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ###
 
 ### 리뷰 작성
-POST http://localhost:3000/reviews
+POST http://localhost:4000/reviews
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "estimateId": "estimate-uuid",
+  "estimateId": "8b656326-fc10-4f30-9581-d495d706f5db",
   "rating": 5,
   "content": "아주 만족스러운 서비스였습니다.",
-  "moverId": "mover-uuid"
+  "moverId": "6873fa25-7522-4f58-8213-5e55977ca0d0"
 }
 
 ###
 
 ### 리뷰 수정
-PATCH http://localhost:3000/reviews/{{reviewId}}
+PATCH http://localhost:4000/reviews/{{reviewId}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "rating": 4,
+  "rating": 5,
   "content": "수정된 리뷰 내용입니다."
 }
 
 ###
 
 ### 리뷰 삭제
-DELETE http://localhost:3000/reviews/{{reviewId}}
+DELETE http://localhost:4000/reviews/{{reviewId}}
 Authorization: Bearer {{token}}

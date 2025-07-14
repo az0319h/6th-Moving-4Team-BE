@@ -8,9 +8,9 @@ async function getMyReviews(req: Request, res: Response, next: NextFunction) {
     const clientId = req.auth!.userId;
 
     const page = Number(req.query.page) || 1;
-    const pageSize = Number(req.query.pageSize) || 6;
+    const limit = Number(req.query.pageSize) || 6;
 
-    const result = await reviewService.getMyReviews(clientId, page, pageSize);
+    const result = await reviewService.getMyReviews(clientId, page, limit);
     res.status(200).json({ message: "리뷰 목록 조회 성공", data: result });
   } catch (error) {
     next(error);
@@ -25,14 +25,8 @@ async function createReview(
 ) {
   try {
     const clientId = req.auth!.userId;
-    const { estimateId, rating, content, moverId } = req.body;
-    const review = await reviewService.createReview({
-      estimateId,
-      rating,
-      content,
-      clientId,
-      moverId,
-    });
+    const { estimateId, rating, content } = req.body;
+    const review = await reviewService.createReview({ estimateId, rating, content }, clientId);
 
     res.status(201).json({ message: "리뷰 작성 성공", data: review });
   } catch (error) {

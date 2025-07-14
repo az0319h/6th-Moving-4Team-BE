@@ -1,4 +1,4 @@
-@token="your_token_here"
+@token=
 
 ### 견적 요청
 POST http://localhost:4000/estimates/requests
@@ -11,3 +11,28 @@ Authorization: Bearer {{token}}
   "fromAddress": "서울특별시 강남구 테헤란로 123",
   "toAddress": "서울특별시 서초구 강남대로 456"
 }
+
+### 대기 중인 견적 조회
+GET http://localhost:4000/estimates/estimates/pending
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 작성 가능한 리뷰 견적 목록 조회 (페이지네이션)
+GET http://localhost:4000/estimates/writable/me?page=1&pageSize=6
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+### 작성 가능한 리뷰 견적 목록 조회 (모바일/태블릿, 4개씩)
+GET http://localhost:4000/estimates/writable/me?page=1&pageSize=4
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+### 작성 가능한 리뷰 견적 목록 조회 (2페이지, 6개씩)
+GET http://localhost:4000/estimates/writable/me?page=2&pageSize=6
+Authorization: Bearer {{token}}
+Accept: application/json
+
