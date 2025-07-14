@@ -1,4 +1,5 @@
 @token=
+@moverId=
 
 ### 전체 기사님 리스트 조회 (비회원도 가능)
 GET http://localhost:4000/movers
