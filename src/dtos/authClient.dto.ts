@@ -1,5 +1,5 @@
 import z from "zod";
-import { ErrorMessage } from "../../constants/ErrorMessage";
+import { ErrorMessage } from "../constants/ErrorMessage";
 
 // ✅ 일반 회원가입 DTO 및 zod 유효성 검사
 export const signUpClientSchema = z
@@ -26,7 +26,7 @@ export const signUpClientSchema = z
     path: ["passwordConfirmation"],
   });
 
-export type TSignUpData = z.infer<typeof signUpClientSchema>;
+export type SignUpRequest = z.infer<typeof signUpClientSchema>;
 
 // ✅ 일반 로그인 DTO 및 zod 유효성 검사
 export const loginClientSchema = z.object({
@@ -39,4 +39,4 @@ export const loginClientSchema = z.object({
     .nonempty(ErrorMessage.NO_PASSWORD),
 });
 
-export type TLoginData = z.infer<typeof loginClientSchema>;
+export type LoginRequest = z.infer<typeof loginClientSchema>;

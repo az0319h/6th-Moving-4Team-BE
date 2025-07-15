@@ -1,2 +1,11 @@
-// 나중에 파일 쓸 일 있을까 싶어 지우지는 않음.
-// 공용 함수는 auth.util.ts로 통합
+import { Client } from "@prisma/client";
+import authClientRepository from "../repositories/authClient.repository";
+import { ClientProfileRegister } from "../types";
+
+// ✅ 프로필 생성 유효성 검사
+export async function validateProfileCreationData(
+  userId: Client["id"],
+  profile: ClientProfileRegister,
+) {
+  const existingProfile = await authClientRepository.findById(userId);
+}

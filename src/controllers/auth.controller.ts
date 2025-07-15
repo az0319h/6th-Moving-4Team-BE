@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { ConflictError, UnauthorizedError } from "../types/errors";
 import { ErrorMessage } from "../constants/ErrorMessage";
 import { generateAccessToken } from "../utils/token.util";
-import { filterSensitiveUserData } from "../utils/auth.util";
 
 // ✅ refreshToken Api
 async function setRefreshToken(req: Request, res: Response, next: NextFunction) {
@@ -36,7 +35,7 @@ async function setRefreshToken(req: Request, res: Response, next: NextFunction) 
 // ✅ 토큰으로 사용자 불러오기
 async function getMe(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = req.user;
+    const user = req.auth;
 
     if (!user) {
       res.status(401).json({ message: "사용자 인증 정보가 없습니다." });

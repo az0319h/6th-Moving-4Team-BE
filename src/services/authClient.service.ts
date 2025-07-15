@@ -1,19 +1,33 @@
 import { ErrorMessage } from "../constants/ErrorMessage";
 import authClientRepository from "../repositories/authClient.repository";
-import { ILoginDataLocal, ISignUpDataLocal } from "../types";
-import { NotFoundError } from "../types/errors";
+import { LoginDataLocal, SignUpDataLocal } from "../types";
+import { ConflictError, NotFoundError } from "../types/errors";
 import { filterSensitiveUserData, hashPassword, verifyPassword } from "../utils/auth.util";
-import { validateSignUpData } from "../utils/auth.util";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.util";
 
 // ✅ 회원가입 - Local
 async function create(
-  user: ISignUpDataLocal,
-): Promise<Omit<ISignUpDataLocal, "hashedPassword" | "phone">> {
+  user: SignUpDataLocal,
+): Promise<Omit<SignUpDataLocal, "hashedPassword" | "phone">> {
+  // 이미 사용한 정보 확인
+  const existingEmail = await authClientRepository.findByEmailRaw(user.email);
+  const existingPhone = await authClientRepository.findByPhone(user.phone);
+
+  const fieldErrors: Record<string, string> = {};
+
+  if (existingEmail) {
+    fieldErrors.email = ErrorMessage.ALREADY_EXIST_EMAIL;
+  }
+  if (existingPhone) {
+    fieldErrors.phone = ErrorMessage.ALREADY_EXIST_PHONE;
+  }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    throw new ConflictError("중복 정보로 인한 회원가입 실패: ", fieldErrors);
+  }
+
   // 비밀번호 해시
   const hashedPassword = await hashPassword(user.hashedPassword);
-
-  await validateSignUpData({ ...user, hashedPassword });
 
   const newClient = await authClientRepository.create({
     ...user,
@@ -26,7 +40,7 @@ async function create(
 }
 
 // ✅ 로그인 - Local
-async function loginWithLocal({ email, hashedPassword }: ILoginDataLocal) {
+async function loginWithLocal({ email, hashedPassword }: LoginDataLocal) {
   const client = await authClientRepository.findByEmail(email);
 
   if (!client) {

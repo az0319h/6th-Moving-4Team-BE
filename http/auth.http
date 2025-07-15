@@ -38,8 +38,8 @@ POST http://localhost:4000/auth/signin/client
 Content-Type: application/json
 
 {
-     "email": "client1@test.com", 
-     "password": "password123"
+     "email": "0sky@example.com", 
+     "password": "asdf1234"
 }
 
 ### RefreshToken
@@ -50,4 +50,4 @@ Cookie: refreshToken=값
 ### 사용자 불러오기
 GET http://localhost:4000/auth
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmRkNTY2OC02Nzg3LTQ1MTktYjliMS0zN2Y4OGMyY2QxN2UiLCJlbWFpbCI6InRlc3Q0QHRlc3QuY29tIiwibmFtZSI6IuydvOuwmOyduCIsInVzZXJUeXBlIjoiY2xpZW50IiwiaWF0IjoxNzUyMjE0NjM5LCJleHAiOjE3NTIyMTgyMzl9.Tvtjd5YECuv3JGN-YfAXvHEYApqC6LRf9MtpjtSB8SQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMjVhMzk0Mi01MzYzLTRkMDYtOGYzYS01MjY1NzY3NDE4YzQiLCJlbWFpbCI6IjBza3lAZXhhbXBsZS5jb20iLCJuYW1lIjoi7JaR7ISx6rK9IiwidXNlclR5cGUiOiJjbGllbnQiLCJpYXQiOjE3NTI1MDQ2NDEsImV4cCI6MTc1MjUwODI0MX0.jFsM0pGbg1cn_DZX5Fgnj26f6Sxw2JDRlsMfCkeT4uU

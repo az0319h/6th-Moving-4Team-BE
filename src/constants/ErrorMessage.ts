@@ -14,6 +14,7 @@ export const ErrorMessage = {
   ALREADY_EXIST_EMAIL: "이미 사용 중인 이메일입니다.",
   ALREADY_EXIST_NICKNAME: "이미 사용 중인 닉네임입니다.",
   ALREADY_EXIST_PHONE: "이미 사용 중인 전화번호입니다.",
+  ALREADY_EXIST_PROFILE: "이미 프로필을 생성하셨습니다. 수정은 '/profile/edit' api에서 해주세요.",
 
   // Invalid
   INVALID_EMAIL: "잘못된 이메일입니다.",
@@ -33,4 +34,7 @@ export const ErrorMessage = {
   PASSWORD_REGEX: "문자와 숫자를 섞어 비밀번호를 작성해 주세요.",
   NAME_LENGTH_LIMIT: "이름을 4자 이내로 입력해 주세요.",
   PHONE_REGEX: "전화번호는 9~11자 사이의 숫자여야 합니다.",
+
+  // 프로필 추가
+  NO_CLIENT_PROFILE: "프로필 사진, 이용 서비스, 내가 사는 지역 중 하나 이상 선택하셔야 합니다.",
 };
