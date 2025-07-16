@@ -20,7 +20,7 @@ async function findByEmail(email: Client["email"]) {
   });
 
   if (!client) return null;
-  return { ...client, userType: "client", profileCompleted: false };
+  return { ...client, userType: "client" };
 }
 
 async function findByPhone(phone: Client["phone"]) {
@@ -40,7 +40,7 @@ async function create(user: SignUpDataLocal) {
     },
   });
 
-  return { ...newClient, userType: "client", isProfileCompleted: false }; // userType: 헤더에서 씀
+  return { ...newClient, userType: "client" }; // userType: 헤더에서 씀
 }
 
 const authClientRepository = {

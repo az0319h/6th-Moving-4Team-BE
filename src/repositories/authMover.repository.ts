@@ -25,7 +25,7 @@ async function saveMover(user: createMoverInputwithHash) {
     },
   });
 
-  return { ...createdMover, userType: "mover", profileCompleted: false }; //userType은 FE의 header에서 필요
+  return { ...createdMover, userType: "mover" }; //userType은 FE의 header에서 필요
 }
 
 //이메일로 기사님 조회
