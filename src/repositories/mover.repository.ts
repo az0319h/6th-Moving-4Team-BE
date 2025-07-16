@@ -1,18 +1,99 @@
+// repositories/mover.repository.ts (백엔드 페이지네이션 지원)
 import prisma from "../configs/prisma.config";
 import { NotFoundError, ServerError } from "../types/errors";
 import { SimplifiedMover, MoverDetail } from "../types/mover/mover.type";
 
-// 전체 기사님 리스트 조회
-async function fetchMovers(clientId?: string): Promise<SimplifiedMover[]> {
+interface GetMoversParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  area?: string;
+  serviceType?: string;
+  sortBy?: string;
+}
+
+interface GetMoversResponse {
+  movers: SimplifiedMover[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}
+
+// 전체 기사님 리스트 조회 (페이지네이션 지원)
+async function fetchMovers(clientId?: string, params: GetMoversParams = {}): Promise<GetMoversResponse> {
   try {
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      area,
+      serviceType,
+      sortBy = 'mostReviewed'
+    } = params;
+
+    const skip = (page - 1) * limit;
+
+    // 검색 조건 구성
+    const whereCondition: any = {};
+
+    if (search) {
+      whereCondition.OR = [
+        { nickName: { contains: search, mode: 'insensitive' } },
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } }
+      ];
+    }
+
+    if (area && area !== 'all') {
+      whereCondition.serviceArea = {
+        some: {
+          regionName: { contains: area, mode: 'insensitive' }
+        }
+      };
+    }
+
+    if (serviceType && serviceType !== 'all') {
+      whereCondition.serviceType = {
+        has: serviceType
+      };
+    }
+
+    // 정렬 조건 구성
+    let orderBy: any = { createdAt: "desc" };
+    
+    switch (sortBy) {
+      case 'mostReviewed':
+        orderBy = { reviewCount: 'desc' };
+        break;
+      case 'highRating':
+        orderBy = { averageReviewRating: 'desc' };
+        break;
+      case 'highExperience':
+        orderBy = { career: 'desc' };
+        break;
+      case 'mostBooked':
+        orderBy = { estimateCount: 'desc' };
+        break;
+      default:
+        orderBy = { createdAt: 'desc' };
+    }
+
+    // 전체 개수 조회
+    const total = await prisma.mover.count({ where: whereCondition });
+
+    // 데이터 조회
     const movers = await prisma.mover.findMany({
+      where: whereCondition,
       include: {
         favorites: clientId ? { where: { clientId }, select: { id: true } } : false,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy,
+      skip,
+      take: limit,
     });
 
-    return movers.map((mover) => ({
+    const simplifiedMovers: SimplifiedMover[] = movers.map((mover) => ({
       id: mover.id,
       nickName: mover.nickName,
       serviceType: mover.serviceType,
@@ -23,6 +104,16 @@ async function fetchMovers(clientId?: string): Promise<SimplifiedMover[]> {
       profileImage: mover.profileImage,
       isFavorite: mover.favorites?.length > 0,
     }));
+
+    const hasMore = skip + limit < total;
+
+    return {
+      movers: simplifiedMovers,
+      total,
+      page,
+      limit,
+      hasMore,
+    };
   } catch (error) {
     throw new ServerError("기사님 리스트 조회 중 오류 발생", error);
   }

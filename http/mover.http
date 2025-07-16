@@ -1,15 +1,12 @@
 @token=
-@moverId=
+@moverId=96ecaa1e-5119-42f0-b498-045d9a069157
 
 ### 전체 기사님 리스트 조회 (비회원도 가능)
 GET http://localhost:4000/movers
 
-###
-
 ### 기사님 상세 조회 (비회원도 가능)
 GET http://localhost:4000/movers/{{moverId}}
 
-###
 
 ### 기사님 찜하기
 POST http://localhost:4000/movers/{{moverId}}/favorite
@@ -18,7 +15,6 @@ Content-Type: application/json
 
 {}
 
-###
 
 ### 기사님 찜 취소
 DELETE http://localhost:4000/movers/{{moverId}}/favorite
