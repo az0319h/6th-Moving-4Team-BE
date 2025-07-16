@@ -41,6 +41,8 @@ async function getMoverDetail(req: Request, res: Response, next: NextFunction) {
 
 async function favoriteMover(req: Request, res: Response, next: NextFunction) {
   try {
+    console.log('req.auth:', req.auth); // userId 포함 확인
+    console.log('moverId:', req.params.moverId);
     await moverService.favoriteMover(req.auth!.userId, req.params.moverId);
     res.status(200).json({ message: "찜 성공" });
   } catch (error) {

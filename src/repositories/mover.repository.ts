@@ -152,19 +152,37 @@ async function fetchMoverDetail(moverId: string, clientId?: string): Promise<Mov
   }
 }
 
+// 찜 상태 조회
+export async function findFavorite(clientId: string, moverId: string) {
+  return prisma.favorite.findUnique({
+    where: {
+      clientId_moverId: {
+        clientId,
+        moverId,
+      },
+    },
+  });
+}
+
 // 찜 추가
-async function addFavoriteMover(clientId: string, moverId: string) {
+export async function addFavoriteMover(clientId: string, moverId: string) {
   return prisma.favorite.create({
     data: { clientId, moverId },
   });
 }
 
 // 찜 삭제
-async function removeFavoriteMover(clientId: string, moverId: string) {
-  return prisma.favorite.deleteMany({
-    where: { clientId, moverId },
+export async function removeFavoriteMover(clientId: string, moverId: string) {
+  return prisma.favorite.delete({
+    where: {
+      clientId_moverId: {
+        clientId,
+        moverId,
+      },
+    },
   });
 }
+
 
 // 지정
 async function designateMover(requestId: string, moverId: string) {

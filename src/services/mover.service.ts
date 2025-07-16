@@ -28,6 +28,7 @@ async function getMoverDetail(moverId: string, clientId?: string) {
   return moverRepository.fetchMoverDetail(moverId, clientId);
 }
 
+
 // 찜하기
 async function favoriteMover(clientId: string, moverId: string) {
   if (!clientId || !moverId)
