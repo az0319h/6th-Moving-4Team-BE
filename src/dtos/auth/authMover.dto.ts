@@ -11,14 +11,7 @@ export interface MoverSigninDto extends getMoverInput {}
 //기사님 회원가입 유효성 검사
 export const signUpMoverSchema = z
   .object({
-    name: z.string().max(4, ErrorMessage.NAME_LENGTH_LIMIT).nonempty(ErrorMessage.NO_NAME),
-
     email: z.string().email().nonempty(ErrorMessage.NO_EMAIL),
-
-    phone: z
-      .string()
-      .regex(/^\d{9,11}$/, ErrorMessage.PHONE_REGEX)
-      .nonempty(ErrorMessage.NO_PHONE),
 
     password: z
       .string()
@@ -27,6 +20,13 @@ export const signUpMoverSchema = z
       .nonempty(ErrorMessage.NO_PASSWORD),
 
     passwordConfirmation: z.string(),
+
+    name: z.string().max(4, ErrorMessage.NAME_LENGTH_LIMIT).nonempty(ErrorMessage.NO_NAME),
+
+    phone: z
+      .string()
+      .regex(/^\d{9,11}$/, ErrorMessage.PHONE_REGEX)
+      .nonempty(ErrorMessage.NO_PHONE),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: ErrorMessage.PASSWORD_CONFIRMATION_NOT_MATCH,

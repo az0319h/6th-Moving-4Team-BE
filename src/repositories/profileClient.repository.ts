@@ -14,31 +14,31 @@ async function findById(id: Client["id"]) {
 
 // ✅ 프로필 생성
 async function create(userId: Client["id"], profile: ClientProfileRegister) {
-  try {
-    //serviceType에 [user.serviceType]가 안 먹혀서 돌려씀
-    const serviceTypes: MoveType[] | undefined = profile.serviceType
-      ? profile.serviceType.map((type) => MoveType[type as keyof typeof MoveType])
-      : undefined;
+  //serviceType에 [user.serviceType]가 안 먹혀서 돌려씀
+  const serviceTypes: MoveType[] | undefined = profile.serviceType
+    ? profile.serviceType.map((type) => MoveType[type as keyof typeof MoveType])
+    : undefined;
 
-    // Client 반환
-    const newProfile = await prisma.client.update({
-      where: { id: userId }, // 조건: 로그인한 사용자
+  const livingAreaName = profile.livingArea
+    ? {
+        connect: profile.livingArea.map((regionName) => ({
+          regionName,
+        })),
+      }
+    : undefined;
 
-      data: {
-        profileImage: profile.profileImage,
-        serviceType: serviceTypes,
-        livingArea: profile.livingArea
-          ? {
-              connect: profile.livingArea.map((regionId) => ({ id: regionId })),
-            }
-          : undefined,
-      },
-    });
+  // Client 반환
+  const newProfile = await prisma.client.update({
+    where: { id: userId }, // 조건: 로그인한 사용자
 
-    return { newProfile, userType: "client", profileCompleted: true };
-  } catch (error) {
-    console.error("일반 프로필 등록 시 오류 발생", error);
-  }
+    data: {
+      profileImage: profile.profileImage,
+      serviceType: serviceTypes,
+      livingArea: livingAreaName,
+    },
+  });
+
+  return { newProfile, userType: "client", profileCompleted: true };
 }
 
 const profileClientRepository = {

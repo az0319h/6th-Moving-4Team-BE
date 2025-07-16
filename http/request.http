@@ -1,5 +1,5 @@
-@client_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYTI1YTYzOC04M2FhLTQ0ZjEtYjI1OC03MmIyMTAxZjBlZDgiLCJlbWFpbCI6ImNsaWVudDFAZXhhbXBsZS5jb20iLCJuYW1lIjoi6rOg6rCdMSIsInVzZXJUeXBlIjoiY2xpZW50IiwiaWF0IjoxNzUyNDgwMjc1LCJleHAiOjE3NTI0ODM4NzV9.RxWiUgcUm9d2OUxFSTF_TTGx6lLnc0GmtMNVOAG72sE
-@mover_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyODdlOTRlOS1jODQ2LTQ5NjMtOTY0NS1kNmQzM2JkNWYzYWUiLCJlbWFpbCI6Im1vdmVyMUBleGFtcGxlLmNvbSIsIm5hbWUiOiLquLDsgqwxIiwidXNlclR5cGUiOiJtb3ZlciIsImlhdCI6MTc1MjQ4MDM2NCwiZXhwIjoxNzUyNDgzOTY0fQ.57sRLh0dPmy3qZ7umy4FuoYwoKY-WP_rVcwRZQHL46c
+@client_token=
+@mover_token=
 
 ### 견적 요청 (일반 유저)
 POST http://localhost:4000/requests
@@ -7,10 +7,10 @@ Content-Type: application/json
 Authorization: Bearer {{client_token}}
 
 {
-  "moveType": "SMALL",
-  "moveDate": "2025-07-09T00:00:00.000Z",
+  "moveType": "OFFICE",
+  "moveDate": "2025-07-09",
   "fromAddress": "대전 서구 가수원로 17-19",
-  "toAddress": "부산 해운대구 구남로 5"
+  "toAddress": ""
 }
 
 ### 받은 요청 조회 (기사님) - 기본 6개 + 커서
@@ -30,5 +30,5 @@ GET http://localhost:4000/requests?isDesignated=true
 Authorization: Bearer {{mover_token}}
 
 ### 받은 요청 조회 (기사님) - 검색 & 정렬
-GET http://localhost:4000/requests?&sort=requestedAt&keyword=고객1
+GET http://localhost:4000/requests?sort=requestedAt&keyword=고객1
 Authorization: Bearer {{mover_token}}

@@ -10,3 +10,13 @@ POST http://localhost:3000/profile/movers
      "serviceType":["소형이사", "사무실이사"],
      "region": ["경기"]
 }
+
+### 일반 프로필 등록
+PATCH http://localhost:4000/profile/clients
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMjVhMzk0Mi01MzYzLTRkMDYtOGYzYS01MjY1NzY3NDE4YzQiLCJlbWFpbCI6IjBza3lAZXhhbXBsZS5jb20iLCJuYW1lIjoi7JaR7ISx6rK9IiwidXNlclR5cGUiOiJjbGllbnQiLCJpYXQiOjE3NTI1NjY2ODUsImV4cCI6MTc1MjU3MDI4NX0.pFHqp1C-Gv2JPMBN-7r2bag73jilOQB_MpiE-yMx15c
+
+{
+     "serviceType": ["SMALL", "HOME"],
+     "livingArea": ["서울", "경기"]
+}

@@ -4,7 +4,8 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "ts-node-dev --respawn src/app.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy:swagger",
+    "copy:swagger": "cp -r src/swagger dist/",
     "start": "node --enable-source-maps dist/app.js",
     "seed": "ts-node prisma/seed.ts",
     "ssh": "dotenv -- bash -c 'ssh -i \"$SSH_KEY_PATH\" -L 5432:$DB_HOST:5432 $EC2_USER@$EC2_HOST'",

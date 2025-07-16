@@ -4,11 +4,12 @@ import { ErrorMessage } from "../constants/ErrorMessage";
 // 프로필 생성
 export const clientProfileSchema = z
   .object({
+    // 주소나 빈 문자열 둘 다 ok
     profileImage: z.string().url().optional(),
 
     serviceType: z.array(z.enum(["SMALL", "HOME", "OFFICE"])).optional(),
 
-    livingArea: z.array(z.object({ id: z.string().uuid(), regionName: z.string() })).optional(),
+    livingArea: z.array(z.string()).optional(),
   })
   .refine(
     (data) =>
@@ -21,4 +22,4 @@ export const clientProfileSchema = z
     },
   );
 
-export type ProfilePostRequest = z.infer<typeof clientProfileSchema>;
+export type ProfilePostDto = z.infer<typeof clientProfileSchema>;

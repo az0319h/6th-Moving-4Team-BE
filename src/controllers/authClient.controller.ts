@@ -21,7 +21,6 @@ async function signUp(req: Request<{}, {}, SignUpRequest>, res: Response, next: 
     };
 
     const client = await authClientService.create(signUpData);
-    console.log(client);
 
     res.status(201).json({ message: "Client 일반 회원가입 성공", data: client });
   } catch (error) {

@@ -1,17 +1,7 @@
-import { MoveType, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "../configs/prisma.config";
 import { CreateRequestDto } from "../dtos/request.dto";
-
-type GetFilteredRequestsInput = {
-  moveType?: MoveType[];
-  serviceAreaList?: string[];
-  isDesignated?: boolean;
-  keyword?: string;
-  sort?: "moveDate" | "requestedAt";
-  limit?: number;
-  cursor?: string;
-  moverId: string;
-};
+import { GetFilteredRequestsInput } from "../types";
 
 // 견적 요청 (일반 유저)
 async function createEstimateRequest(request: CreateRequestDto, clientId: string) {

@@ -1,4 +1,6 @@
 import express from "express";
+import profileClientController from "../controllers/profileClient.controller";
+import { verifyAccessToken } from "../middlewares/auth.middleware";
 
 const profileRouter = express.Router();
 
@@ -10,6 +12,7 @@ const profileRouter = express.Router();
 // //기사님 프로필 등록과 수정
 // profileRouter.patch("/mover", authMi, moverPatchProfile);
 
-//todo:일반 유저 프로필 등록과 수정
+// 일반 유저 프로필 등록
+profileRouter.patch("/clients", verifyAccessToken, profileClientController.post);
 
 export default profileRouter;

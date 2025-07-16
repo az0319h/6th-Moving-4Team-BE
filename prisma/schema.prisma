@@ -8,17 +8,18 @@ datasource db {
 }
 
 model Client {
-  id             String     @id @default(uuid())
-  email          String     @unique
-  name           String
-  phone          String     @unique
-  hashedPassword String?
-  profileImage   String?
-  provider       Provider   @default(LOCAL)
-  providerId     String?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  serviceType    MoveType[]
+  id                 String     @id @default(uuid())
+  email              String     @unique
+  name               String
+  phone              String     @unique
+  hashedPassword     String?
+  profileImage       String?
+  provider           Provider   @default(LOCAL)
+  providerId         String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  serviceType        MoveType[]
+  isProfileCompleted Boolean    @default(false)
 
   livingArea    Region[]
   requests      Request[]
@@ -48,6 +49,7 @@ model Mover {
   estimateCount       Int        @default(0)
   averageReviewRating Float      @default(0)
   reviewCount         Int        @default(0)
+  isProfileCompleted  Boolean    @default(false)
 
   serviceArea        Region[]
   estimates          Estimate[]

@@ -21,7 +21,6 @@ const PORT = process.env.PORT;
 
 // trust proxy 설정 (쿠키 보안 관련: production 시 필요)
 app.set("trust proxy", 1);
-
 // 미들웨어
 app.use(
   cors({
@@ -38,12 +37,11 @@ app.use(passport.initialize());
 app.use("/", infoRouter);
 app.use("/auth", authRouter);
 app.use("/profile", verifyAccessToken, profileRouter);
-app.use("/movers", moverRouter)
+app.use("/movers", moverRouter);
 app.use("/reviews", verifyAccessToken, reviewRouter);
 app.use("/estimates", verifyAccessToken, estimateRouter);
 app.use("/requests", requestRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
-
 
 // 에러 핸들러
 app.use(errorHandler);

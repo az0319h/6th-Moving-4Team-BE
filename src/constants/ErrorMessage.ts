@@ -14,7 +14,7 @@ export const ErrorMessage = {
   ALREADY_EXIST_EMAIL: "이미 사용 중인 이메일입니다.",
   ALREADY_EXIST_NICKNAME: "이미 사용 중인 닉네임입니다.",
   ALREADY_EXIST_PHONE: "이미 사용 중인 전화번호입니다.",
-  ALREADY_EXIST_PROFILE: "이미 프로필을 생성하셨습니다. 수정은 '/profile/edit' api에서 해주세요.",
+  ALREADY_EXIST_PROFILE: "이미 등록된 프로필입니다.",
 
   // Invalid
   INVALID_EMAIL: "잘못된 이메일입니다.",
@@ -24,6 +24,7 @@ export const ErrorMessage = {
 
   UNAUTHORIZED: "인증되지 않은 사용자입니다.",
   FORBIDDEN: "요청한 작업을 수행하기 위한 권한이 없습니다.",
+  BAD_REQUEST: "잘못된 요청입니다.",
 
   // 회원가입 추가
   NO_EMAIL: "이메일을 입력해 주세요.",
