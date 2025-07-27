@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import authClientService from "../services/authClient.service";
 import { SignInRequestDTO, SignUpRequestDTO } from "../dtos/auth.dto";
+import { NotFoundError } from "../types/errors";
+import { ErrorMessage } from "../constants/ErrorMessage";
 
 // ✅ 일반 회원가입
 async function signUp(req: Request<{}, {}, SignUpRequestDTO>, res: Response, next: NextFunction) {
@@ -30,6 +32,19 @@ async function login(req: Request<{}, {}, SignInRequestDTO>, res: Response, next
   }
 }
 
-const authClientController = { signUp, login };
+// ✅ 구글 로그인
+async function googleLogin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const user = req.user;
+
+    if (!user) throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
+
+    res.status(200).json({ message: "구글 로그인 성공", data: user });
+  } catch (error) {
+    next(error);
+  }
+}
+
+const authClientController = { signUp, login, googleLogin };
 
 export default authClientController;

@@ -45,19 +45,37 @@ async function create(user: SignUpDataLocal) {
 }
 
 // ✅ 소셜 로그인
-async function update(id: string, data: SignUpDataSocial) {
-  return prisma.client.update({
+async function save(user: SignUpDataSocial) {
+  const newClient = await prisma.client.create({
+    data: {
+      name: user.name,
+      email: user.email!,
+      phone: user.phone,
+      provider: user.provider,
+      providerId: user.providerId,
+    },
+  });
+
+  return { ...newClient, userType: "client" }; // userType: 헤더에서 씀
+}
+
+async function update(id: string, data: Omit<SignUpDataSocial, "email">) {
+  const newClient = await prisma.client.update({
     where: { id },
     data: data,
   });
+
+  return { ...newClient, userType: "client" };
 }
 
 async function createOrUpdate({ provider, providerId, email, name, phone }: SignUpDataSocial) {
-  return prisma.client.upsert({
+  const newClient = prisma.client.upsert({
     where: { provider_providerId: { provider, providerId } },
-    update: { email, name, phone },
+    update: { email, name },
     create: { provider, providerId, email, name, phone },
   });
+
+  return { ...newClient, userType: "client" };
 }
 
 const authClientRepository = {
@@ -67,6 +85,7 @@ const authClientRepository = {
   findByPhone,
   create,
   update,
+  save,
   createOrUpdate,
 };
 

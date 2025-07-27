@@ -19,6 +19,7 @@ export const ErrorMessage = {
   ALREADY_EXIST_NICKNAME: "이미 사용 중인 닉네임입니다.",
   ALREADY_EXIST_PHONE: "이미 사용 중인 전화번호입니다.",
   ALREADY_EXIST_PROFILE: "이미 등록된 프로필입니다.",
+  ALREADY_EXIST_USER: "이미 가입한 사용자입니다.",
 
   // Invalid
   INVALID_EMAIL: "잘못된 이메일입니다.",
