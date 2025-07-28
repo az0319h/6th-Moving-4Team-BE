@@ -6,6 +6,8 @@
 import passport from "passport";
 import googleStrategy from "../middlewares/passport/googleStratedy";
 import kakaoStrategy from "../middlewares/passport/kakaoStratedy";
+import naverStrategy from "../middlewares/passport/naverStratedy";
 
 passport.use("google", googleStrategy);
 passport.use("kakao", kakaoStrategy);
+passport.use("naver", naverStrategy);

@@ -39,13 +39,12 @@ async function loginEasily(req: Request, res: Response, next: NextFunction) {
     const { accessToken, refreshToken, user } = req.user as unknown as SignInDataSocial;
 
     if (!user) throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
-    console.log("!!!", user);
 
     // 쿠키 설정
     res.cookie("accessToken", accessToken);
 
     // 데이터 받자마자 프론트로 넘김
-    const redirectUrl = new URL("http://localhost:3000/mover-search");
+    const redirectUrl = new URL("http://localhost:3000/profile/create");
 
     res.redirect(redirectUrl.toString());
   } catch (error) {

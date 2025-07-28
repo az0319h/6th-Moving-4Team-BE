@@ -53,4 +53,12 @@ authRouter.get(
   authClientController.loginEasily,
 ); // 진짜 카카오 로그인
 
+// ✅ Client 네이버 로그인
+authRouter.get("/naver", passport.authenticate("naver", { scope: ["name", "email", "mobile"] })); // 네이버 설정창 이동
+authRouter.get(
+  "/naver/callback",
+  passport.authenticate("naver", { session: false }),
+  authClientController.loginEasily,
+); // 진짜 네이버 로그인
+
 export default authRouter;
