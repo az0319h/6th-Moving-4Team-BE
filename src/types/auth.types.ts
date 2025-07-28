@@ -19,8 +19,8 @@ export interface SignUpDataSocial {
   provider: Provider;
   providerId: string;
   email: string;
-  name: string;
-  phone: string;
+  name?: string;
+  phone?: string;
 }
 
 export interface SignInDataSocial {

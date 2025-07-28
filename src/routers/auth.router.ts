@@ -26,7 +26,7 @@ authRouter.post("/signup/mover", validateReq(signUpSchema), checkMoverSignUpInfo
 //기사님 로그인 - Local
 authRouter.post("/signin/mover", validateReq(signInSchema), checkMoverSignInInfo, moverSignin);
 
-// Client 회원가입 - Local
+// ✅ Client 회원가입 - Local
 authRouter.post(
   "/signup/client",
   validateReq(signUpSchema),
@@ -34,15 +34,23 @@ authRouter.post(
   authClientController.signUp,
 );
 
-// Client 로그인 - Local
+// ✅ Client 로그인 - Local
 authRouter.post("/signin/client", validateReq(signInSchema), authClientController.login);
 
-// Client 구글 로그인
+// ✅ Client 구글 로그인
 authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] })); // 구글창 이동
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
-  authClientController.loginByGoogle,
+  authClientController.loginEasily,
 ); // 진짜 구글 로그인
+
+// ✅ Client 카카오 로그인
+authRouter.get("/kakao", passport.authenticate("kakao", { scope: ["account_email"] })); // 카카오 설정창 이동
+authRouter.get(
+  "/kakao/callback",
+  passport.authenticate("kakao", { session: false }),
+  authClientController.loginEasily,
+); // 진짜 카카오 로그인
 
 export default authRouter;

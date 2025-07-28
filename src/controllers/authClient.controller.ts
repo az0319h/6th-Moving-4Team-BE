@@ -34,30 +34,25 @@ async function login(req: Request<{}, {}, SignInRequestDTO>, res: Response, next
 }
 
 // ✅ 구글 로그인
-async function loginByGoogle(req: Request, res: Response, next: NextFunction) {
+async function loginEasily(req: Request, res: Response, next: NextFunction) {
   try {
     const { accessToken, refreshToken, user } = req.user as unknown as SignInDataSocial;
 
     if (!user) throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
     console.log("!!!", user);
 
+    // 쿠키 설정
     res.cookie("accessToken", accessToken);
 
     // 데이터 받자마자 프론트로 넘김
     const redirectUrl = new URL("http://localhost:3000/mover-search");
 
-    redirectUrl.searchParams.set("accessToken", accessToken);
-    redirectUrl.searchParams.set("refreshToken", refreshToken);
-    redirectUrl.searchParams.set("name", user.name || "");
-    redirectUrl.searchParams.set("email", user.email || "");
-
-    //기존 메인 창에 토큰 전달 후 창 닫기
     res.redirect(redirectUrl.toString());
   } catch (error) {
     next(error);
   }
 }
 
-const authClientController = { signUp, login, loginByGoogle };
+const authClientController = { signUp, login, loginEasily };
 
 export default authClientController;

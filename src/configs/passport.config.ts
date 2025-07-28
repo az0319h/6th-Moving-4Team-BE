@@ -5,5 +5,7 @@
 
 import passport from "passport";
 import googleStrategy from "../middlewares/passport/googleStratedy";
+import kakaoStrategy from "../middlewares/passport/kakaoStratedy";
 
 passport.use("google", googleStrategy);
+passport.use("kakao", kakaoStrategy);

@@ -1,4 +1,4 @@
-import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";
+import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import authClientService from "../../services/authClient.service";
 import providerMap from "../../utils/providerMap.util";
 import { NotFoundError } from "../../types/errors";
@@ -14,7 +14,7 @@ async function verify(
   accessToken: string,
   refreshToken: string,
   profile: Profile,
-  done: VerifyCallback,
+  done: (error: any, user?: any) => void,
 ) {
   // enum <-> string 변환
   const providerEnumValue = providerMap[profile.provider];
@@ -25,7 +25,7 @@ async function verify(
   }
 
   // 사용자 데이터
-  const user = await authClientService.oAuthCreateOrUpdate({
+  const userInfo = await authClientService.oAuthCreateOrUpdate({
     provider: providerEnumValue,
     providerId: profile.id,
     email: profile.emails[0]?.value,
@@ -33,7 +33,7 @@ async function verify(
     phone: "",
   });
 
-  done(null, user); // req.user = user;
+  done(null, userInfo); // req.user = user;
 }
 
 // ✅ 실행
