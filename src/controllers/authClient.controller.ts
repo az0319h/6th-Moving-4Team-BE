@@ -33,7 +33,7 @@ async function login(req: Request<{}, {}, SignInRequestDTO>, res: Response, next
   }
 }
 
-// ✅ 구글 로그인
+// ✅ 소셜 로그인
 async function loginEasily(req: Request, res: Response, next: NextFunction) {
   try {
     const { accessToken, refreshToken, user } = req.user as unknown as SignInDataSocial;
@@ -41,11 +41,12 @@ async function loginEasily(req: Request, res: Response, next: NextFunction) {
     if (!user) throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
 
     // 쿠키 설정
-    res.cookie("accessToken", accessToken);
+    // res.cookie("accessToken", accessToken);
 
-    // 데이터 받자마자 프론트로 넘김
+    // 데이터 받자마자 FE로 넘김
     const redirectUrl = new URL("http://localhost:3000/profile/create");
 
+    // res.json({ accessToken });
     res.redirect(redirectUrl.toString());
   } catch (error) {
     next(error);
