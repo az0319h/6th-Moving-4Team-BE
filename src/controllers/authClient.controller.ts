@@ -41,13 +41,7 @@ async function loginByGoogle(req: Request, res: Response, next: NextFunction) {
     if (!user) throw new NotFoundError(ErrorMessage.USER_NOT_FOUND);
     console.log("!!!", user);
 
-    res.cookie("accessToken", accessToken, {
-      httpOnly: false, // 프론트에서 읽을 거면 false
-      secure: false, // 개발 중일 땐 false, 배포는 true
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60, // 1시간
-      path: "/",
-    });
+    res.cookie("accessToken", accessToken);
 
     // 데이터 받자마자 프론트로 넘김
     const redirectUrl = new URL("http://localhost:3000/mover-search");
