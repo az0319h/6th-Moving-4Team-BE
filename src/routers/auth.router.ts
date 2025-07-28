@@ -42,7 +42,7 @@ authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
-  authClientController.googleLogin,
+  authClientController.loginByGoogle,
 ); // 진짜 구글 로그인
 
 export default authRouter;

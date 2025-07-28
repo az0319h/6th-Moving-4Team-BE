@@ -59,10 +59,10 @@ async function save(user: SignUpDataSocial) {
   return { ...newClient, userType: "client" }; // userType: 헤더에서 씀
 }
 
-async function update(id: string, data: Omit<SignUpDataSocial, "email">) {
+async function update(id: string, user: Omit<SignUpDataSocial, "email">) {
   const newClient = await prisma.client.update({
     where: { id },
-    data: data,
+    data: user,
   });
 
   return { ...newClient, userType: "client" };

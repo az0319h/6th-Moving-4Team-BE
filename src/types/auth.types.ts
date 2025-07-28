@@ -23,6 +23,12 @@ export interface SignUpDataSocial {
   phone: string;
 }
 
+export interface SignInDataSocial {
+  accessToken: string;
+  refreshToken: string;
+  user: SignUpDataSocial & { userType: string };
+}
+
 //기사님 회원가입할 때 필요한 값 (컨트롤러, 서비스 단)
 export type CreateMoverInput = {
   name: string;
