@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
-      - run: echo "${{ secrets.ENV }}" > .env
       - run: npm run build
 
   Deploy:
@@ -35,14 +34,11 @@ jobs:
       - name: 의존성 설치
         run: npm ci
 
-      - name: .env 파일 생성
-        run: echo "${{ secrets.ENV }}" > .env
-
       - name: 빌드 실행
         run: npm run build
 
       - name: 빌드파일 압축하기
-        run: tar -czvf project.tar.gz dist package.json package-lock.json .env
+        run: tar -czvf project.tar.gz dist package.json package-lock.json
 
       - name: scp로 EC2에 파일 전송
         uses: appleboy/scp-action@v1
@@ -62,8 +58,9 @@ jobs:
           script_stop: true
           script: |
             cd /home/ec2-user/6th-Moving-4Team-BE
-            rm -rf dist
+            rm -rf dist node_modules
             tar -xvf project.tar.gz
             rm -f project.tar.gz
-            pm2 kill
-            pm2 start dist/server.js
+            npm ci --only=production
+            pm2 restart server || pm2 start dist/server.js --name server
+            pm2 save
