@@ -86,7 +86,7 @@ describe("프론트의 요청을 검증한다 ", () => {
     expect(next).toHaveBeenCalled();
     const error = next.mock.calls[0][0];
     expect(error).toBeInstanceOf(ConflictError);
-    expect(error.message).toBe("중복 정보로 인한 회원가입 실패");
+    expect(error.message).toBe("잘못된 정보로 인한 요청 실패");
   });
 });
 
@@ -313,7 +313,11 @@ describe("(일반 유저) 회원가입 시 이메일과 전화번호를 DB와 �
 
   test("이메일이 중복이면 에러와 에러 메세지를 전달한다", async () => {
     //  1단계 setUp - 테스트 준비
-    mockFindByEmailRaw.mockResolvedValue({ id: "1", email: req.body.email } as any);
+    mockFindByEmailRaw.mockResolvedValue({
+      id: "1",
+      email: req.body.email,
+      provider: "LOCAL",
+    } as any);
     mockFindByPhone.mockResolvedValue(null);
 
     // 2단계 exercise - 테스트 실행
@@ -347,7 +351,11 @@ describe("(일반 유저) 회원가입 시 이메일과 전화번호를 DB와 �
 
   test("이메일, 전화번호가 중복이면 에러와 에러 메세지를 전달한다", async () => {
     //  1단계 setUp - 테스트 준비
-    mockFindByEmailRaw.mockResolvedValue({ id: "1", email: req.body.email } as any);
+    mockFindByEmailRaw.mockResolvedValue({
+      id: "1",
+      email: req.body.email,
+      provider: "LOCAL",
+    } as any);
     mockFindByPhone.mockResolvedValue({ id: "1", phone: req.body.phone } as any);
 
     // 2단계 exercise - 테스트 실행

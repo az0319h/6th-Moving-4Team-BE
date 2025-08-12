@@ -272,11 +272,11 @@ describe("oAuthCreateOrUpdate 정상 동작", () => {
     expect(mockGetMoverByEmail).toHaveBeenCalled();
   });
 
-  test("기존 유저의 providerId와 일치하지 않으면 에러를 던진다", async () => {
+  test("기존 유저의 provider가 일치하지 않으면 에러를 던진다", async () => {
     // 1단계 - setUp
     mockGetMoverByEmail.mockResolvedValueOnce({
       ...mockSocialUser,
-      providerId: "DIFFERENT_ID",
+      provider: Provider.KAKAO, // 다른 provider
     });
 
     // 2단계(테스트 실행), 3단계 (결과 검증)

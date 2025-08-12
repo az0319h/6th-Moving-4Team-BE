@@ -176,6 +176,7 @@ describe("Mover Repository 테스트", () => {
         name: mockMoverDetail.name || "",
         phone: mockMoverDetail.phone || "",
         favoriteCount: mockMoverDetail.favoriteCount || 0,
+        favorites: [{ id: "fav-1" }],
       });
     });
 

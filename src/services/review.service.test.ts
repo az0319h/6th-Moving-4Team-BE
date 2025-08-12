@@ -205,7 +205,6 @@ describe("reviewService", () => {
         createdAt: new Date(),
         rating: 5,
         content: "Some content",
-        images: [],
         clientId: "client1",
         moverId: "mover1",
         estimateId: "estimate1",
