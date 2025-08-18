@@ -29,43 +29,43 @@ async function findRegionByLabel(user: MoverProfile) {
 }
 
 // 기사님 프로필 생성/수정
-async function modifyMoverProfile(user: MoverProfile, updateData: Prisma.MoverUpdateInput) {
-  try {
-    const modifiedMoverProfile = await prisma.mover.update({
-      where: { id: user.userId },
-      data: updateData,
-      include: {
-        serviceArea: true,
-      },
-    });
+// async function modifyMoverProfile(user: MoverProfile, updateData: Prisma.MoverUpdateInput) {
+//   try {
+//     const modifiedMoverProfile = await prisma.mover.update({
+//       where: { id: user.userId },
+//       data: updateData,
+//       include: {
+//         serviceArea: true,
+//       },
+//     });
 
-    // 업데이트 후 다시 조회해서 확인
-    const verification = await prisma.mover.findUnique({
-      where: { id: user.userId },
-      select: {
-        id: true,
-        latitude: true,
-        longitude: true,
-        businessAddress: true,
-      },
-    });
+//     // 업데이트 후 다시 조회해서 확인
+//     const verification = await prisma.mover.findUnique({
+//       where: { id: user.userId },
+//       select: {
+//         id: true,
+//         latitude: true,
+//         longitude: true,
+//         businessAddress: true,
+//       },
+//     });
 
-    return { ...modifiedMoverProfile, userType: "mover" }; // userType은 FE의 header에서 필요
-  } catch (error) {
-    console.error("❌ 데이터베이스 업데이트 에러:", error);
+//     return { ...modifiedMoverProfile, userType: "mover" }; // userType은 FE의 header에서 필요
+//   } catch (error) {
+//     console.error("❌ 데이터베이스 업데이트 에러:", error);
 
-    // Prisma 에러 상세 정보 출력
-    if (error && typeof error === "object" && "code" in error) {
-      console.error("Prisma 에러 코드:", (error as any).code);
-      console.error("Prisma 에러 메타:", (error as any).meta);
-    }
+//     // Prisma 에러 상세 정보 출력
+//     if (error && typeof error === "object" && "code" in error) {
+//       console.error("Prisma 에러 코드:", (error as any).code);
+//       console.error("Prisma 에러 메타:", (error as any).meta);
+//     }
 
-    throw new BadRequestError(ErrorMessage.BAD_REQUEST, error);
-  }
-}
+//     throw new BadRequestError(ErrorMessage.BAD_REQUEST, error);
+//   }
+// }
 
 export default {
   findById,
   findRegionByLabel,
-  modifyMoverProfile,
+  // modifyMoverProfile,
 };
