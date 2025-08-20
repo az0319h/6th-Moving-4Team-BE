@@ -1,5 +1,5 @@
 import CommunityRepository from "../repositories/Community.repository";
-import { CreateCommunityData, CreateReplyData } from "../types/Community.type";
+import { CreateCommunityData, CreateReplyData } from "../types";
 import { translateData } from "../utils/translation.util";
 
 async function getAllCommunity(
