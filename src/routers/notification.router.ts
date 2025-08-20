@@ -7,10 +7,7 @@ const notificationRouter = Router();
 notificationRouter.get("/stream", notificationController.sendNotification);
 
 // 알림 조회
-notificationRouter.get(
-  "/",
-  notificationController.getNotifications,
-);
+notificationRouter.get("/", notificationController.getNotifications);
 
 // 알림 읽기
 notificationRouter.patch("/:id", notificationController.readNotification);

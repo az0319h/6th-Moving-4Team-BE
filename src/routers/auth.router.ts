@@ -11,12 +11,12 @@ import {
   validateReq,
   verifyAccessToken,
 } from "../middlewares/auth.middleware";
-import express from "express";
+import { Router } from "express";
 import passport from "passport";
 import { createSocialAuthMiddleware } from "../middlewares/passport/passport.middleware";
 import { loginLimiter } from "../middlewares/rateLimits.middleware";
 
-const authRouter = express.Router();
+const authRouter = Router();
 
 // 토큰 재생성
 authRouter.post("/refresh-token", authController.setRefreshToken);

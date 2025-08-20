@@ -2,11 +2,11 @@ import profileClientController from "../controllers/client.controller";
 import profileMoverController from "../controllers/profileMover.controller";
 import { MoverProfileSchema } from "../dtos/mover.dto";
 import { validateReq, verifyAccessToken } from "../middlewares/auth.middleware";
-import express from "express";
+import { Router } from "express";
 import { checkMoverProfileInfo } from "../middlewares/profile.middleware";
 import { profileUpdateLimit } from "../middlewares/rateLimits.middleware";
 
-const profileRouter = express.Router();
+const profileRouter = Router();
 
 // 기사님 프로필 생성&수정
 profileRouter.patch(
