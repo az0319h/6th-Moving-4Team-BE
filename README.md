@@ -83,7 +83,10 @@
 </table>
 
 ## 시스템 아키텍처
-<img width="3212" height="2023" alt="fa68b90569ee2253" src="https://github.com/user-attachments/assets/b271e73e-7096-412c-8cfa-a7b8318607f2" />
+<img width="3212" height="2023" alt="무빙시스템아키텍처" src="https://github.com/user-attachments/assets/24f06c09-5db6-4480-8ef5-dc239597d0e0" />
+
+> 유지보수 과정에서 백엔드 호스팅 환경은 AWS EC2에서 Render로, <br />
+이미지 저장소는 AWS S3에서 Cloudinary로 변경되었습니다.
 
 ## 기술 스택
 
